@@ -15,7 +15,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git url: "https://${credentials('github-username')}:${credentials('github-pat')}@github.com/myorg/node-app.git",
+                git url: "https://${credentials('github-username')}:${credentials('github-cred')}@github.com/myorg/node-app.git",
                     branch: "${params.BRANCH_NAME}"
             }
         }
