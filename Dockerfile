@@ -1,20 +1,21 @@
-# Use Node 18 as parent image
-FROM node:18
+# Use lightweight Node.js runtime
+FROM node:18-alpine
 
-# Change the working directory on the Docker image to /app
+# Set working directory in the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the /app directory
-COPY package.json package-lock.json ./
+LABEL maintainer="qzee"
 
-# Install dependencies
-RUN npm install
+RUN addgroup -S appuser && adduser -S appuser -G appuser
 
-# Copy the rest of project files into this image
-COPY . .
+# Copy the built artifact from CI (all files ready to run)
+COPY --chown=appuser:appuser . .
 
-# Expose application port
+
+# Expose the port your app listens on
 EXPOSE 3000
 
-# Start the application
-CMD npm start
+USER appuser
+# Command to start the app
+CMD ["node", "app.js"]
+
