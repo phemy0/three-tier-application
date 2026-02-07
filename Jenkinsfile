@@ -1,4 +1,3 @@
-
 pipeline {
     agent {
         docker {
@@ -12,11 +11,11 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout') {
             steps {
-                git url: "https://${credentials('github-username')}:${credentials('github_token')}@github.com/myorg/node-app.git",
-                    branch: "${params.BRANCH_NAME}"
+                git branch: "${params.BRANCH_NAME}",
+                    url: 'https://github.com/myorg/node-app.git',
+                    credentialsId: 'github-creds'
             }
         }
 
@@ -67,5 +66,3 @@ pipeline {
         }
     }
 }
-
-
