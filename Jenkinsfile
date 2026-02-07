@@ -37,7 +37,7 @@ pipeline {
                           -Dsonar.projectKey=node-app \
                           -Dsonar.sources=. \
                           -Dsonar.host.url=http://100.53.185.191:9000 \
-                          -Dsonar.login=${credentials('sonarqube-id')}
+                          -Dsonar.login=${credentials('sonarqube_id')}
                     """
                 }
             }
@@ -45,7 +45,7 @@ pipeline {
 
         stage('Docker Build & Push') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub_cred', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh '''
                         docker login -u $DOCKER_USER -p $DOCKER_PASS
                         TIMESTAMP=$(date +%Y%m%d-%H%M%S)
