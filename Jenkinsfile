@@ -1,4 +1,4 @@
-cat jenkinsfile
+
 pipeline {
     agent {
         docker {
