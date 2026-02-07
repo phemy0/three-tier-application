@@ -1,13 +1,12 @@
 pipeline {
-    agent {
-        docker {
-            image 'alqoseemi/runner-node-docker:latest'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
+    agent any   // run directly on Jenkins server
 
     parameters {
         string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Branch to build')
+    }
+
+    tools {
+        nodejs "NodeJS 18"   // configure this in Global Tool Configuration
     }
 
     stages {
