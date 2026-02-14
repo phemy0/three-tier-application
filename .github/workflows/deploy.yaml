@@ -33,4 +33,3 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run Ansible Playbook (Prod)
         run: ansible-playbook -i inventory/prod.ini playbook.yml
-

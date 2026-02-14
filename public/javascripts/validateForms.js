@@ -1,6 +1,6 @@
 
-// A self-invoking function, also known as an immediately invoked function expression (IIFE), 
-//      is a JavaScript function that is defined and executed immediately after it is created. 
+// A self-invoking function, also known as an immediately invoked function expression (IIFE),
+//      is a JavaScript function that is defined and executed immediately after it is created.
 // search more for wtf is self-invoking function in JS, very clunky
 
 (function () {
@@ -24,4 +24,3 @@
             }, false)
         })
 })()
-
