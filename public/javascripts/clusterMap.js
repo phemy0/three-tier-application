@@ -1,4 +1,4 @@
-// this file is modificated ver from https://docs.mapbox.com/mapbox-gl-js/example/cluster/ 
+// this file is modificated ver from https://docs.mapbox.com/mapbox-gl-js/example/cluster/
 
 mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
@@ -129,4 +129,3 @@ map.on('load', function () {
         map.getCanvas().style.cursor = '';
     });
 });
-
