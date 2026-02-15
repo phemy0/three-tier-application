@@ -36,4 +36,3 @@ USER appuser
 
 # Command to start the app
 CMD ["node", "app.js"]
-

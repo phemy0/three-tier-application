@@ -6,4 +6,4 @@ yarn-error.log
 logs
 tmp
 dist/*.map
-
+.pem
