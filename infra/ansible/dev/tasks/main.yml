@@ -1,0 +1,46 @@
+#tasks file for docker
+
+    - name: Install Docker engine
+      ansible.builtin.apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    - name: Install Docker Compose plugin
+      ansible.builtin.apt:
+        name: docker-compose-plugin
+        state: present
+
+    - name: Log into DockerHub
+      community.docker.docker_login:
+        username: "{{dockerhub_username}}"
+        password: "{{dockerhub_token}}"
+
+    - name: Pull an image
+      community.docker.docker_image:
+        name: pacur/centos-7
+        source: pull
+        platform: amd64
+
+    - name: Copy .env file
+      copy:
+      src: file/.env
+      dest: /home/{{ ansible_user }}/project/.env
+      mode: '0600'
+      notify: Restart docker-compose stack
+
+    - name: Render docker-compose.yml
+      template:
+      src: file/docker-compose.yaml
+      dest: /home/{{ ansible_user }}/project/docker-compose.yml
+      mode: '0644'
+      notify: Restart docker-compose stack
+
+
+    - name: Run application with Docker Compose
+      community.docker.docker_compose_v2:
+       project_src: /home/{{ ansible_user }}/project
+       state: present
+
+
+    

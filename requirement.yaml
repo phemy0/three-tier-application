@@ -1,0 +1,8 @@
+# requirements.yml
+collections:
+  - name: community.docker
+    version: 3.10.3   # pin a version for consistency
+~                                                                                                                                             
+~                                                                                                                                             
+~                                                                                                                                             
+~  
