@@ -35,7 +35,7 @@ jobs:
           ssh-keyscan -H 13.221.40.129 >> ~/.ssh/known_hosts
 
       - name: Run Ansible Playbook (Dev)
-        run: ansible-playbook -i infra/ansible/inventory/dev.ini infra/ansible/playbook-dev.yml \
+        run: ansible-playbook -i infra/ansible/inventory/dev.ini infra/ansible/playbook-dev.yaml \
              --extra-vars "docker_image=${{ github.event.workflow_run.outputs.image_tag }}"
 
   deploy-stage:
