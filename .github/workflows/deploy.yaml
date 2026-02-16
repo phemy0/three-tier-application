@@ -33,7 +33,7 @@ jobs:
           ssh-keyscan -H 13.221.40.129 >> ~/.ssh/known_hosts
 
       - name: Run Ansible Playbook (Dev)
-        run: ansible-playbook -i inventory/dev.ini playbook-dev.yml
+        run: ansible-playbook -i infra/ansible/inventory/dev.ini infra/ansible/playbook-dev.yml
 
   deploy-stage:
     runs-on: ubuntu-latest
