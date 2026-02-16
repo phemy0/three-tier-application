@@ -2,7 +2,7 @@ name: Deploy Pipeline
 
 on:
   workflow_run:
-    workflows: ["Build & Push Pipeline"]   # 👈 link to your Build workflow
+    workflows: ["Build & Push Pipeline"]
     types:
       - completed
 
@@ -12,7 +12,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-ansible   # 👈 call composite action
+      - uses: ./.github/actions/setup-ansible
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
