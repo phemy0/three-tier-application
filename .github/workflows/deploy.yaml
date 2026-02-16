@@ -2,7 +2,7 @@ name: Deploy Pipeline
 
 on:
   workflow_run:
-    workflows: ["Build & Push Pipeline"]   # 👈 link to your Build workflow
+    workflows: [""]   # 👈 link to your Build workflow
     types:
       - completed
 
