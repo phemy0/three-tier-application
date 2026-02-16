@@ -30,5 +30,5 @@ runs:
           ${{ runner.os }}-ansible-
 
     - name: Install Ansible collections
-      run: ansible-galaxy install -r requirements.yml
+      run: ansible-galaxy install -r infra/ansible/requirements.yml
       shell: bash

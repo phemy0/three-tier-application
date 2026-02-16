@@ -2,13 +2,14 @@ name: Deploy Pipeline
 
 on:
   workflow_run:
-    workflows: [""]   # 👈 link to your Build workflow
+    workflows: ["Build & Push Pipeline"]   # 👈 link to your Build workflow
     types:
       - completed
 
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-ansible   # 👈 call composite action
@@ -33,7 +34,8 @@ jobs:
           ssh-keyscan -H 13.221.40.129 >> ~/.ssh/known_hosts
 
       - name: Run Ansible Playbook (Dev)
-        run: ansible-playbook -i infra/ansible/inventory/dev.ini infra/ansible/playbook-dev.yml
+        run: ansible-playbook -i infra/ansible/inventory/dev.ini infra/ansible/playbook-dev.yml \
+             --extra-vars "docker_image=${{ github.event.workflow_run.outputs.image_tag }}"
 
   deploy-stage:
     runs-on: ubuntu-latest
@@ -42,7 +44,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-ansible
-      - run: ansible-playbook -i inventory/stage.ini playbook.yml
+      - run: ansible-playbook -i inventory/stage.ini playbook.yml \
+             --extra-vars "docker_image=${{ github.event.workflow_run.outputs.image_tag }}"
 
   deploy-prod:
     runs-on: ubuntu-latest
@@ -51,5 +54,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-ansible
-      - run: ansible-playbook -i inventory/prod.ini playbook.yml
+      - run: ansible-playbook -i inventory/prod.ini playbook.yml \
+             --extra-vars "docker_image=${{ github.event.workflow_run.outputs.image_tag }}"
 
