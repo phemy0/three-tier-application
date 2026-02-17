@@ -18,8 +18,8 @@
 - name: Pull application image
   community.docker.docker_image:
     name: "{{ docker_image }}"   # 👈 dynamic tag from pipeline
+    tag: latest
     source: pull
-    platform: amd64
 
 - name: Copy .env file
   ansible.builtin.copy:
