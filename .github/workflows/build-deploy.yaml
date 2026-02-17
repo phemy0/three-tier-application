@@ -56,9 +56,17 @@ jobs:
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H 13.221.40.129 >> ~/.ssh/known_hosts
+          
+      - name: Generate .env from AWS Secrets Manager
+        run: |
+          SECRET=$(aws secretsmanager get-secret-value \
+            --secret-id yelpcamp/env \
+            --query SecretString \
+            --output text)
+          echo "$SECRET" | jq -r 'to_entries|map("\(.key)=\(.value)")|.[]' > .env
 
       - name: Run Ansible Playbook (Dev)
-        run: ansible-playbook -i infra/ansible/inventory/dev.ini infra/ansible/playbook-dev.yaml --extra-vars "docker_image=${{ needs.build.outputs.image_tag }} dockerhub_username=${{secrets.DOCKERHUB_USERNAME}} dockerhub_token=${{secrets.DOCKERHUB_TOKEN}} app_port=3000"
+        run: ansible-playbook -i infra/ansible/inventory/dev.ini infra/ansible/playbook-dev.yaml --extra-vars "docker_image=${{ needs.build.outputs.image_tag }} dockerhub_username=${{ secrets.DOCKERHUB_USERNAME }} dockerhub_token=${{ secrets.DOCKERHUB_TOKEN }} app_port=3000"
 
   deploy-stage:
     runs-on: ubuntu-latest
@@ -77,4 +85,3 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-ansible
       - run: ansible-playbook -i infra/ansible/inventory/prod.ini infra/ansible/playbook-prod.yaml --extra-vars "docker_image=${{ needs.build.outputs.image_tag }}"
-
