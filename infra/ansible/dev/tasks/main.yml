@@ -18,7 +18,7 @@
 
     - name: Pull an image
       community.docker.docker_image:
-        name: "{{ docker_image }}" 
+        name: "alqoseemi/yelpcamp:latest" 
         source: pull
         platform: amd64
 
