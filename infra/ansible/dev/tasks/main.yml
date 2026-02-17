@@ -17,8 +17,8 @@
 
 - name: Pull application image
   community.docker.docker_image:
-    name: "{{ docker_image }}"   # 👈 dynamic tag from pipeline
-    tag: latest
+    name: "alqoseemi/yelpcamp"
+    tag: "{{ docker_image }}"   # 👈 dynamic tag from pipeline
     source: pull
 
 - name: Copy .env file
