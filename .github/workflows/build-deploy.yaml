@@ -58,9 +58,7 @@ jobs:
           ssh-keyscan -H 13.221.40.129 >> ~/.ssh/known_hosts
 
       - name: Run Ansible Playbook (Dev)
-        run: - name: Run Ansible Playbook (Dev)
         run: ansible-playbook -i infra/ansible/inventory/dev.ini infra/ansible/playbook-dev.yaml --extra-vars "docker_image=${{ needs.build.outputs.image_tag }}"
-
 
   deploy-stage:
     runs-on: ubuntu-latest
@@ -69,8 +67,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-ansible
-      - run: ansible-playbook -i infra/ansible/inventory/stage.ini infra/ansible/playbook-stage.yaml \
-             --extra-vars "docker_image=${{ needs.build.outputs.image_tag }}"
+      - run: ansible-playbook -i infra/ansible/inventory/stage.ini infra/ansible/playbook-stage.yaml --extra-vars "docker_image=${{ needs.build.outputs.image_tag }}"
 
   deploy-prod:
     runs-on: ubuntu-latest
@@ -79,6 +76,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-ansible
-      - run: ansible-playbook -i infra/ansible/inventory/prod.ini infra/ansible/playbook-prod.yaml \
-             --extra-vars "docker_image=${{ needs.build.outputs.image_tag }}"
+      - run: ansible-playbook -i infra/ansible/inventory/prod.ini infra/ansible/playbook-prod.yaml --extra-vars "docker_image=${{ needs.build.outputs.image_tag }}"
 
