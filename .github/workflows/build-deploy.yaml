@@ -58,7 +58,7 @@ jobs:
           ssh-keyscan -H 13.221.40.129 >> ~/.ssh/known_hosts
 
       - name: Run Ansible Playbook (Dev)
-        run: ansible-playbook -i infra/ansible/inventory/dev.ini infra/ansible/playbook-dev.yaml --extra-vars "docker_image=${{ needs.build.outputs.image_tag }} dockerhub_username=${{secrets.DOCKERHUB_USERNAME}} dockerhub_token=${{secrets.DOCKERHUB_TOKEN}}"
+        run: ansible-playbook -i infra/ansible/inventory/dev.ini infra/ansible/playbook-dev.yaml --extra-vars "docker_image=${{ needs.build.outputs.image_tag }} dockerhub_username=${{secrets.DOCKERHUB_USERNAME}} dockerhub_token=${{secrets.DOCKERHUB_TOKEN}} app_port=3000"
 
   deploy-stage:
     runs-on: ubuntu-latest
