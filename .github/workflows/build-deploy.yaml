@@ -44,7 +44,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Retrieve secrets from AWS Secrets Manager
+      - name: Retrieve secrets from AWS Secrets manager
         run: |
           SECRET=$(aws secretsmanager get-secret-value --secret-id yelpcamp/env --query SecretString --output text)
           echo "$SECRET" > .env
