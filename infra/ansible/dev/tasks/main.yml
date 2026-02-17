@@ -41,7 +41,8 @@
     mode: '0644'
   notify: Restart docker-compose stack
 
-- name: Run application with Docker Compose
-  community.docker.docker_compose_v2:
-    project_src: /home/{{ ansible_user }}/project
-    state: present
+- name: Run application with Docker Compose (standalone binary)
+  ansible.builtin.command: >
+    docker-compose -f /home/{{ ansible_user }}/project/docker-compose.yml up -d
+  args:
+    chdir: /home/{{ ansible_user }}/project
