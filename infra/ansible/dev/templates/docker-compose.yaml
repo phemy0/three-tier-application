@@ -1,10 +1,7 @@
-version: "3.8"
-
 services:
   app:
-    image: "{{ docker_image }}"
+    image: "alqoseemi/yelpcamp:{{ docker_image }}"
     ports:
-      - "{{ app_port }}:{{ app_port }}"
+      - "{{ app_port }}:3000"
     env_file:
       - .env
-    restart: always
