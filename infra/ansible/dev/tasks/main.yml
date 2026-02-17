@@ -23,7 +23,7 @@
 
 - name: Copy .env file
   ansible.builtin.copy:
-    src: .env
+    src: "{{ playbook_dir }}/../../.env"
     dest: /home/{{ ansible_user }}/project/.env
     mode: '0600'
   notify: Restart docker-compose stack
