@@ -19,7 +19,12 @@
   community.docker.docker_image:
     name: "alqoseemi/yelpcamp"
     tag: "{{ docker_image }}"   # 👈 dynamic tag from pipeline
-    source: pull
+    source: pull  
+    
+- name: Ensure project directory exists 
+  ansible.builtin.file: path: /home/ubuntu/project 
+    state: directory 
+    mode: '0755'
 
 - name: Copy .env file
   ansible.builtin.copy:
