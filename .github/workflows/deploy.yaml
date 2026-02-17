@@ -1,15 +1,16 @@
 name: Deploy Pipeline
 
 on:
-  workflow_run:
-    workflows: ["Build & Push Pipeline"]
-    types:
-      - completed
+  workflow_call:
 
 jobs:
+  build-and-push:
+    uses: ./.github/workflows/build.yaml
+    secrets: inherit   # 👈 ensures DockerHub secrets flow through
+
   deploy-dev:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    needs: build-and-push
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-ansible
@@ -36,7 +37,7 @@ jobs:
 
       - name: Run Ansible Playbook (Dev)
         run: ansible-playbook -i infra/ansible/inventory/dev.ini infra/ansible/playbook-dev.yaml \
-             --extra-vars "docker_image=${{ github.event.workflow_run.outputs.image_tag }}"
+             --extra-vars "docker_image=${{ needs.build-and-push.outputs.image_tag }}"
 
   deploy-stage:
     runs-on: ubuntu-latest
@@ -46,7 +47,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-ansible
       - run: ansible-playbook -i inventory/stage.ini playbook.yml \
-             --extra-vars "docker_image=${{ github.event.workflow_run.outputs.image_tag }}"
+             --extra-vars "docker_image=${{ needs.build-and-push.outputs.image_tag }}"
 
   deploy-prod:
     runs-on: ubuntu-latest
@@ -56,4 +57,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-ansible
       - run: ansible-playbook -i inventory/prod.ini playbook.yml \
-             --extra-vars "docker_image=${{ github.event.workflow_run.outputs.image_tag }}"
+             --extra-vars "docker_image=${{ needs.build-and-push.outputs.image_tag }}"
+

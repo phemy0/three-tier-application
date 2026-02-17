@@ -1,5 +1,5 @@
----
 - name: Restart docker-compose stack
   community.docker.docker_compose_v2:
     project_src: /home/{{ ansible_user }}/project
-    state: present
+    state: restarted
+
