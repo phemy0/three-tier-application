@@ -34,8 +34,8 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H 13.221.40.129 >> ~/.ssh/known_hosts
 
-       - name: Debug image tag 
-          run: echo "Image tag is: ${{ github.event.workflow_run.outputs.image_tag }}" 
+      - name: Debug image tag
+        run: echo "Image tag is: ${{ github.event.workflow_run.outputs.image_tag }}"
 
       - name: Run Ansible Playbook (Dev)
         run: ansible-playbook -i infra/ansible/inventory/dev.ini infra/ansible/playbook-dev.yaml \
@@ -60,4 +60,3 @@ jobs:
       - uses: ./.github/actions/setup-ansible
       - run: ansible-playbook -i inventory/prod.ini playbook.yml \
              --extra-vars "docker_image=${{ github.event.workflow_run.outputs.image_tag }}"
-
