@@ -1,5 +1,6 @@
+# infra/ansible/dev/handlers/main.yml
 - name: Restart docker-compose stack
-  community.docker.docker_compose_v2:
-    project_src: /home/{{ ansible_user }}/project
-    state: restarted
-
+  ansible.builtin.command: >
+    docker-compose -f /home/{{ ansible_user }}/project/docker-compose.yml up -d
+  args:
+    chdir: /home/{{ ansible_user }}/project
